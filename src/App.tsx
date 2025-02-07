@@ -4,70 +4,137 @@ import Logo from "./assets/avatar.svg";
 const App: React.FC = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   useEffect(() => {
     let isAnimating = false;
+    let lastScrollY = window.scrollY;
+
+    // Add easing functions
+    const easeOutBack = (x: number): number => {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+    };
+
+    const easeInOutBack = (x: number): number => {
+      const c1 = 1.70158;
+      const c2 = c1 * 1.525;
+      return x < 0.5
+        ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+        : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+    };
 
     const handleScroll = (e) => {
-      // Prevent default scroll during animation
-      if (!animationComplete) {
+      const currentScrollY = window.scrollY;
+      const scrollingUp = e.deltaY ? e.deltaY < 0 : currentScrollY < lastScrollY;
+      lastScrollY = currentScrollY;
+
+      // Handle scroll up when animation is complete
+      if (animationComplete && scrollingUp && currentScrollY <= window.innerHeight) {
         e.preventDefault();
+        setAnimationComplete(false);
+        setShowBottomSheet(false);  // Hide bottom sheet when reversing animation
+        document.body.style.overflow = 'hidden';
         
-        // If not already animating, start animation
         if (!isAnimating) {
           isAnimating = true;
           
-          const animationDuration = 1000;
+          const animationDuration = 1200; // Increased duration
           const startTime = performance.now();
+          const startPosition = 300;
+          const targetPosition = 0;
           
           const animate = () => {
             const currentTime = performance.now();
             const elapsed = currentTime - startTime;
             
             if (elapsed < animationDuration) {
-              const progress = Math.min(elapsed / animationDuration * 300, 300);
-              setScrollPosition(progress);
+              const progress = elapsed / animationDuration;
+              const easeProgress = easeOutBack(progress);
+              const newPosition = startPosition + (targetPosition - startPosition) * easeProgress;
+              setScrollPosition(newPosition);
+              window.scrollTo(0, 0);
               requestAnimationFrame(animate);
             } else {
-              setScrollPosition(300);
-              setAnimationComplete(true);
+              setScrollPosition(0);
+              window.scrollTo(0, 0);
               isAnimating = false;
-              document.body.style.overflow = 'auto';
-              
-              // Small delay to ensure state updates are processed
-              setTimeout(() => {
-                // Remove event listeners
-                window.removeEventListener('wheel', handleWheel);
-                window.removeEventListener('touchmove', handleTouch);
-                window.removeEventListener('scroll', handleScroll);
+              window.addEventListener('wheel', handleWheel, { passive: false });
+              window.addEventListener('touchmove', handleTouch, { passive: false });
+              window.addEventListener('scroll', handleScroll, { passive: false });
+            }
+          };
+          
+          requestAnimationFrame(animate);
+        }
+      }
+
+      // Original animation logic for scrolling down
+      if (!animationComplete || (scrollingUp && scrollPosition <= 300)) {
+        e.preventDefault();
+        
+        if (!isAnimating) {
+          isAnimating = true;
+          
+          const animationDuration = 1200;
+          const startTime = performance.now();
+          const startPosition = scrollPosition;
+          const targetPosition = scrollingUp ? 0 : 300;
+          
+          const animate = () => {
+            const currentTime = performance.now();
+            const elapsed = currentTime - startTime;
+            
+            if (elapsed < animationDuration) {
+              const progress = elapsed / animationDuration;
+              const easeProgress = scrollingUp ? easeOutBack(progress) : easeInOutBack(progress);
+              const newPosition = startPosition + (targetPosition - startPosition) * easeProgress;
+              setScrollPosition(newPosition);
+              requestAnimationFrame(animate);
+            } else {
+              setScrollPosition(targetPosition);
+              if (!scrollingUp) {
+                setAnimationComplete(true);
+                document.body.style.overflow = 'auto';
                 
-                // Force scroll to next section
-                window.scrollTo({
-                  top: window.innerHeight,
-                  behavior: 'smooth'
-                });
-              }, 50);
+                setTimeout(() => {
+                  window.removeEventListener('wheel', handleWheel);
+                  window.removeEventListener('touchmove', handleTouch);
+                  window.removeEventListener('scroll', handleScroll);
+                  
+                  window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                  });
+                  // Show bottom sheet after scrolling to next section
+                  setShowBottomSheet(true);
+                }, 50);
+              }
+              isAnimating = false;
             }
           };
           
           requestAnimationFrame(animate);
         }
       } else {
-        // Normal scrolling after animation
         setScrollPosition(window.scrollY + 300);
+        // Show bottom sheet when scrolling down after animation
+        if (!showBottomSheet && window.scrollY > window.innerHeight) {
+          setShowBottomSheet(true);
+        }
       }
     };
 
-    // Handle both wheel and touch events
     const handleWheel = (e) => {
-      if (!animationComplete) {
+      if (!animationComplete || (window.scrollY <= window.innerHeight)) {
         e.preventDefault();
         handleScroll(e);
       }
     };
 
     const handleTouch = (e) => {
-      if (!animationComplete) {
+      if (!animationComplete || (window.scrollY <= window.innerHeight)) {
         e.preventDefault();
         handleScroll(e);
       }
@@ -102,6 +169,28 @@ const App: React.FC = () => {
           minHeight: scrollPosition < 300 ? "100vh" : "auto"
         }}
       >
+        {/* Modified scroll icon visibility */}
+        <div 
+          className="fixed bottom-8 right-8 z-30 animate-bounce flex flex-col items-center justify-center text-center opacity-20 hover:opacity-100 transition-opacity duration-300"
+          style={{ 
+            opacity: Math.max(0.2, 1 - scrollPosition / 100),
+            display: 'flex'  // Remove conditional display
+          }}
+        >
+          <span className="text-sm mb-2 whitespace-nowrap">Scroll</span>
+          <svg 
+            className="w-6 h-6 text-white"
+            fill="none" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth="2" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+
         <div 
           className="container mx-auto px-4 flex flex-col items-center h-full" 
           style={{ 
@@ -136,75 +225,26 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      {/* Bottom Sheet */}
+      <div 
+        className={`fixed bottom-0 left-0 w-full bg-white rounded-t-3xl shadow-2xl transition-transform duration-500 ease-in-out z-50`}
+        style={{ 
+          height: '80vh',
+          transform: showBottomSheet ? 'translateY(0)' : 'translateY(100%)',
+          display: animationComplete ? 'block' : 'none'
+        }}
+      >
+        <div className="w-full p-4 flex justify-center">
+          <div className="w-20 h-1.5 bg-gray-300 rounded-full"></div>
+        </div>
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-4">Content Title</h2>
+          <p>Your bottom sheet content goes here...</p>
+        </div>
+      </div>
+
       {/* Add a spacer div to prevent content from showing too early */}
       <div style={{ height: scrollPosition < 300 ? "100vh" : "0" }}></div>
-
-      {/* About Section */}
-      <section 
-        id="about" 
-        className="py-20 px-10 bg-gray-200 text-center"
-        style={{ 
-          position: scrollPosition < 300 ? 'absolute' : 'relative',
-          width: '100%',
-          top: scrollPosition < 300 ? '100vh' : 'auto',
-          pointerEvents: scrollPosition < 300 ? 'none' : 'auto'
-        }}
-      >
-        <h2 className="text-3xl font-semibold">About Me</h2>
-        <p className="mt-4 max-w-2xl mx-auto">I love building amazing web experiences.</p>
-      </section>
-
-      {/* Projects Section */}
-      <section 
-        id="projects" 
-        className="py-20 px-10 bg-white text-center"
-        style={{ 
-          position: scrollPosition < 300 ? 'absolute' : 'relative',
-          width: '100%',
-          top: scrollPosition < 300 ? 'calc(100vh + 240px)' : 'auto',
-          pointerEvents: scrollPosition < 300 ? 'none' : 'auto'
-        }}
-      >
-        <h2 className="text-3xl font-semibold">Projects</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-100 p-4 rounded-md shadow-md">
-            <h3 className="text-xl font-bold">Project 1</h3>
-            <p>Description of your project.</p>
-          </div>
-          <div className="bg-gray-100 p-4 rounded-md shadow-md">
-            <h3 className="text-xl font-bold">Project 2</h3>
-            <p>Description of your project.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section 
-        id="contact" 
-        className="py-20 px-10 bg-gray-200 text-center"
-        style={{ 
-          position: scrollPosition < 300 ? 'absolute' : 'relative',
-          width: '100%',
-          top: scrollPosition < 300 ? 'calc(100vh + 600px)' : 'auto',
-          pointerEvents: scrollPosition < 300 ? 'none' : 'auto'
-        }}
-      >
-        <h2 className="text-3xl font-semibold">Contact Me</h2>
-        <p>Email: your.email@example.com</p>
-      </section>
-
-      {/* Footer */}
-      <footer 
-        className="py-4 bg-gray-800 text-white text-center"
-        style={{ 
-          position: scrollPosition < 300 ? 'absolute' : 'relative',
-          width: '100%',
-          top: scrollPosition < 300 ? 'calc(100vh + 800px)' : 'auto',
-          pointerEvents: scrollPosition < 300 ? 'none' : 'auto'
-        }}
-      >
-        <p>&copy; 2024 [Your Name]. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
