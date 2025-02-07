@@ -3,38 +3,103 @@ import Logo from "./assets/avatar.svg";
 
 const App: React.FC = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+    let isAnimating = false;
+
+    const handleScroll = (e) => {
+      // Prevent default scroll during animation
+      if (!animationComplete) {
+        e.preventDefault();
+        
+        // If not already animating, start animation
+        if (!isAnimating) {
+          isAnimating = true;
+          
+          const animationDuration = 1000;
+          const startTime = performance.now();
+          
+          const animate = () => {
+            const currentTime = performance.now();
+            const elapsed = currentTime - startTime;
+            
+            if (elapsed < animationDuration) {
+              const progress = Math.min(elapsed / animationDuration * 300, 300);
+              setScrollPosition(progress);
+              requestAnimationFrame(animate);
+            } else {
+              setScrollPosition(300);
+              setAnimationComplete(true);
+              isAnimating = false;
+              document.body.style.overflow = 'auto';
+              
+              // Small delay to ensure state updates are processed
+              setTimeout(() => {
+                // Remove event listeners
+                window.removeEventListener('wheel', handleWheel);
+                window.removeEventListener('touchmove', handleTouch);
+                window.removeEventListener('scroll', handleScroll);
+                
+                // Force scroll to next section
+                window.scrollTo({
+                  top: window.innerHeight,
+                  behavior: 'smooth'
+                });
+              }, 50);
+            }
+          };
+          
+          requestAnimationFrame(animate);
+        }
+      } else {
+        // Normal scrolling after animation
+        setScrollPosition(window.scrollY + 300);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Handle both wheel and touch events
+    const handleWheel = (e) => {
+      if (!animationComplete) {
+        e.preventDefault();
+        handleScroll(e);
+      }
+    };
+
+    const handleTouch = (e) => {
+      if (!animationComplete) {
+        e.preventDefault();
+        handleScroll(e);
+      }
+    };
+
+    // Initial setup
+    document.body.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
+
+    // Add event listeners with passive: false
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchmove', handleTouch, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: false });
+
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [animationComplete]);
 
   return (
     <div className="font-sans bg-gray-100 text-gray-900">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 w-full bg-white shadow-md p-4 z-50">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-blue-500">Hello</h2>
-          <ul className="flex space-x-6">
-            <li><a href="#hero" className="hover:text-blue-500">Home</a></li>
-            <li><a href="#about" className="hover:text-blue-500">About</a></li>
-            <li><a href="#projects" className="hover:text-blue-500">Projects</a></li>
-            <li><a href="#contact" className="hover:text-blue-500">Contact</a></li>
-          </ul>
-        </div>
-      </nav>
-
+     
       {/* Hero Section */}
       <section 
         id="hero" 
         className="h-[100vh] pt-16 relative flex items-center justify-center bg-blue-500 text-white text-center overflow-hidden" 
         style={{ 
           perspective: "1000px",
-          minHeight: scrollPosition < 300 ? "100vh" : "auto"  // Lock height until animation completes
+          minHeight: scrollPosition < 300 ? "100vh" : "auto"
         }}
       >
         <div 
@@ -55,7 +120,7 @@ const App: React.FC = () => {
             }}
           >
             <div>
-              <h1 className="text-[12rem] font-bold text-white">Hi, I'm ASIF</h1>
+              <h1 className="text-[12rem] font-bold text-white">I'm ASIF</h1>
               <p className="text-2xl mt-4 text-white">A Mobile App Developer</p>
             </div>
           </div>
