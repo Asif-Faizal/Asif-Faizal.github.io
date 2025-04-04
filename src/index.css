@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Back-Wild';
+  src: url('./assets/Back-Wild.ttf') format('truetype');
+}

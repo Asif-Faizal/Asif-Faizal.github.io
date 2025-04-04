@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "./assets/avatar.svg";
+import "./index.css";
 
 const App: React.FC = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -10,7 +11,6 @@ const App: React.FC = () => {
     let isAnimating = false;
     let lastScrollY = window.scrollY;
 
-    // Add easing functions
     const easeOutBack = (x: number): number => {
       const c1 = 1.70158;
       const c3 = c1 + 1;
@@ -30,19 +30,18 @@ const App: React.FC = () => {
       const scrollingUp = e.deltaY ? e.deltaY < 0 : currentScrollY < lastScrollY;
       lastScrollY = currentScrollY;
 
-      // Handle scroll up when animation is complete
       if (animationComplete && scrollingUp && currentScrollY <= window.innerHeight) {
         e.preventDefault();
         setAnimationComplete(false);
-        setShowBottomSheet(false);  // Hide bottom sheet when reversing animation
+        setShowBottomSheet(false);
         document.body.style.overflow = 'hidden';
         
         if (!isAnimating) {
           isAnimating = true;
           
-          const animationDuration = 1200; // Increased duration
+          const animationDuration = 1200;
           const startTime = performance.now();
-          const startPosition = 300;
+          const startPosition = 500;
           const targetPosition = 0;
           
           const animate = () => {
@@ -107,8 +106,9 @@ const App: React.FC = () => {
                     top: window.innerHeight,
                     behavior: 'smooth'
                   });
-                  // Show bottom sheet after scrolling to next section
-                  setShowBottomSheet(true);
+                  setTimeout(() => {
+                    setShowBottomSheet(true);
+                  }, 1000);
                 }, 50);
               }
               isAnimating = false;
@@ -119,7 +119,6 @@ const App: React.FC = () => {
         }
       } else {
         setScrollPosition(window.scrollY + 300);
-        // Show bottom sheet when scrolling down after animation
         if (!showBottomSheet && window.scrollY > window.innerHeight) {
           setShowBottomSheet(true);
         }
@@ -140,11 +139,9 @@ const App: React.FC = () => {
       }
     };
 
-    // Initial setup
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
 
-    // Add event listeners with passive: false
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchmove', handleTouch, { passive: false });
     window.addEventListener('scroll', handleScroll, { passive: false });
@@ -174,7 +171,7 @@ const App: React.FC = () => {
           className="fixed bottom-8 right-8 z-30 animate-bounce flex flex-col items-center justify-center text-center opacity-20 hover:opacity-100 transition-opacity duration-300"
           style={{ 
             opacity: Math.max(0.2, 1 - scrollPosition / 100),
-            display: 'flex'  // Remove conditional display
+            display: 'flex'
           }}
         >
           <span className="text-sm mb-2 whitespace-nowrap">Scroll</span>
@@ -208,8 +205,13 @@ const App: React.FC = () => {
               transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
             }}
           >
-            <div>
-              <h1 className="text-[12rem] font-bold text-white">I'm ASIF</h1>
+            <div className="mb-32">
+              <h4 className="text-[6rem] font-bold text-white font-back-wild leading-none">
+                Hi, I'm
+              </h4>
+              <h1 className="text-[18rem] font-bold text-white font-back-wild leading-none">
+                ASIF
+              </h1>
               <p className="text-2xl mt-4 text-white">A Mobile App Developer</p>
             </div>
           </div>
