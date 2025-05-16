@@ -9,15 +9,14 @@ const Navbar = () => {
   const navItems = [
     { name: 'Home', href: '/', id: 'home' },
     { name: 'About', href: '#about', id: 'about' },
-    { name: 'Skills', href: '#skills', id: 'skills' },
-    { name: 'Works', href: '#works', id: 'works' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
+    { name: 'Projects', href: '#projects', id: 'projects' },
   ];
 
   return (
     <header style={{
       width: '100%',
       display: 'flex',
+      fontSize: '1.5rem',
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: '1rem 0',
@@ -30,7 +29,7 @@ const Navbar = () => {
           fontWeight: 'bold',
           color: '#1e293b'
         }}>
-          Mohammed Asif
+          Portfolio
         </Link>
       </div>
       
