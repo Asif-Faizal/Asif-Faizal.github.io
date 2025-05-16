@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -19,7 +18,7 @@ const Hero = () => {
           color: '#1e293b',
           marginBottom: '0.5rem'
         }}>
-          I'm <span style={{ color: '#4860FF' }}>Asif</span>
+          I&apos;m <span style={{ color: '#4860FF' }}>Asif</span>
         </h2>
         <h3 style={{ 
           fontSize: '5rem',
