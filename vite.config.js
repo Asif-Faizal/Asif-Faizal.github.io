@@ -3,8 +3,12 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-// https://vite.dev/config/
+/**
+ * Vite config for GitHub Pages deployment
+ * Set base to '/flutter-portfolio/' (your repo name)
+ */
 export default defineConfig({
+  base: '/flutter-portfolio/',
   plugins: [react(),tailwindcss()],
   resolve: {
     alias: {
