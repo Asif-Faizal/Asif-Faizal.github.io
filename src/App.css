@@ -1,0 +1,258 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #fff;
+  --foreground: #232323;
+  --card: #fff;
+  --card-foreground: #232323;
+  --popover: #fff;
+  --popover-foreground: #232323;
+  --primary: #232323;
+  --primary-foreground: #fff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #232323;
+  --muted: #f5f5f5;
+  --muted-foreground: #6b7280;
+  --accent: #232323;
+  --accent-foreground: #fff;
+  --destructive: #e53e3e;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #232323;
+  --chart-1: #232323;
+  --chart-2: #6b7280;
+  --chart-3: #374151;
+  --chart-4: #bdbdbd;
+  --chart-5: #a3a3a3;
+  --sidebar: #f5f5f5;
+  --sidebar-foreground: #232323;
+  --sidebar-primary: #232323;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #232323;
+  --sidebar-accent-foreground: #fff;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #232323;
+}
+
+.dark {
+  --background: #232323;
+  --foreground: #fff;
+  --card: #232323;
+  --card-foreground: #fff;
+  --popover: #232323;
+  --popover-foreground: #fff;
+  --primary: #fff;
+  --primary-foreground: #232323;
+  --secondary: #333;
+  --secondary-foreground: #fff;
+  --muted: #333;
+  --muted-foreground: #bdbdbd;
+  --accent: #fff;
+  --accent-foreground: #232323;
+  --destructive: #e53e3e;
+  --border: #fff1;
+  --input: #fff2;
+  --ring: #fff;
+  --chart-1: #fff;
+  --chart-2: #bdbdbd;
+  --chart-3: #a3a3a3;
+  --chart-4: #232323;
+  --chart-5: #6b7280;
+  --sidebar: #232323;
+  --sidebar-foreground: #fff;
+  --sidebar-primary: #fff;
+  --sidebar-primary-foreground: #232323;
+  --sidebar-accent: #fff;
+  --sidebar-accent-foreground: #232323;
+  --sidebar-border: #fff1;
+  --sidebar-ring: #fff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+/* Custom animations and styles for portfolio */
+.gradient-bg {
+  background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #232323 0%, #6b7280 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(35, 35, 35, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(35, 35, 35, 0.1);
+}
+
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.phone-screen {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 25px;
+  background: #000;
+  border-radius: 0 0 15px 15px;
+}
+
+.app-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.app-icon:hover {
+  transform: scale(1.1);
+}
+
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid #ffffff;
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #ffffff }
+}
+
+.skill-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #ffffff 0%, #d1d5db 100%);
+  border-radius: 3px;
+  transform-origin: left;
+  animation: fillBar 2s ease-out forwards;
+}
+
+@keyframes fillBar {
+  from { transform: scaleX(0) }
+  to { transform: scaleX(1) }
+}
+
