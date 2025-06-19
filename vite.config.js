@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 /**
- * Vite config for GitHub Pages deployment
- * Set base to '/flutter-portfolio/' (your repo name)
+ * Vite config for local development
+ * Use relative paths for local file opening
  */
 export default defineConfig({
   base: '/flutter-portfolio/',
