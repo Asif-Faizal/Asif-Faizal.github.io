@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView, useAnimation } from 'framer-motion';
-import { ChevronDown, Code, Smartphone, Zap, Star, Github, Linkedin, Mail, ExternalLink, ArrowRight, Play, Pause, Volume2, Globe, Library } from 'lucide-react';
+import { ChevronDown, Code, Smartphone, Zap, Star, Github, Linkedin, Mail, ExternalLink, ArrowRight, Play, Pause, Volume2, Globe, Library, Instagram, Send } from 'lucide-react';
 import './App.css';
 import versaceImage from './assets/versace.png';
 import socialCircleImage from './assets/social-circle.png';
+import informedImage from './assets/informed.png';
+import iphone15Image from './assets/iphone15.png';
+import profileImage from './assets/profile.png';
 import {
   SiFlutter,
   SiAndroid,
@@ -75,7 +78,27 @@ const App = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 bg-background">
+      <section className="relative min-h-screen flex items-center justify-center px-4 bg-background overflow-hidden">
+                {/* Background Circle with Profile */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gray-200 rounded-full opacity-20 shadow-2xl overflow-hidden"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.15 }}
+          transition={{ duration: 2, ease: "easeOut" }}
+          style={{
+            boxShadow: '0 0 100px rgba(255, 255, 255, 0.1), 0 0 200px rgba(255, 255, 255, 0.05)'
+          }}
+        >
+          {/* <motion.img
+            src={profileImage}
+            alt="Profile"
+            className="absolute inset-0 w-full h-full object-cover opacity-30"
+            initial={{ scale: 1.2, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.3 }}
+            transition={{ duration: 3, ease: "easeOut", delay: 0.5 }}
+          /> */}
+        </motion.div>
+        
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center z-10">
           {/* Left side - Text content */}
           <motion.div
@@ -83,7 +106,6 @@ const App = () => {
             animate={{ opacity: isLoaded ? 1 : 0, x: isLoaded ? 0 : -50 }}
             transition={{ duration: 0.8 }}
             className="space-y-6"
-            style={{ opacity }}
           >
             <div>
               <motion.div
@@ -217,7 +239,6 @@ const App = () => {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           whileHover={{ scale: 1.2 }}
-          style={{ opacity }}
         >
           <motion.div
             className="p-2 rounded-full border border-gray-200"
@@ -300,7 +321,7 @@ const App = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Featured Projects
+            What have I built?
           </motion.h2>
           
           <div className="grid lg:grid-cols-2 gap-6">
@@ -312,11 +333,13 @@ const App = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 bg-gray-50 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      <section className="py-32 px-4 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        {/* Background Decoration */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200"></div>
+        
         <div className="container mx-auto text-center relative z-10">
           <motion.h2 
-            className="text-4xl lg:text-6xl font-bold mb-8 gradient-text"
+            className="text-4xl lg:text-6xl font-bold mb-6 gradient-text"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -326,17 +349,19 @@ const App = () => {
           </motion.h2>
           
           <motion.p 
-            className="text-xl text-gray-500 mb-12 max-w-2xl mx-auto"
+            className="text-lg text-gray-600 mb-16 max-w-xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Ready to bring your mobile app ideas to life? Let's create something amazing together.
+            Ready to bring your mobile app ideas to life? Drop me a message below or connect with me on social media.
           </motion.p>
           
+          <WhatsAppForm />
+
           <motion.div 
-            className="flex justify-center gap-6 mb-12"
+            className="flex justify-center gap-8 mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -346,27 +371,42 @@ const App = () => {
               <motion.a
                 key={link.name}
                 href={link.url}
-                className="p-4 bg-gray-100 rounded-full hover:bg-gray-200 transition-all duration-300 group relative"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + (index * 0.1) }}
                 viewport={{ once: true }}
               >
-                <link.icon className="w-6 h-6 relative z-10 text-gray-700" />
+                <div className="w-16 h-16 bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center group-hover:shadow-xl group-hover:border-gray-200 transition-all duration-300">
+                  <link.icon className="w-7 h-7 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" />
+                </div>
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm font-medium text-gray-500 group-hover:text-gray-700 transition-colors duration-300">
+                  {link.name}
+                </span>
               </motion.a>
             ))}
           </motion.div>
 
+          {/* Footer */}
           <motion.div
-            className="text-center"
+            className="border-t border-gray-200 pt-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
             viewport={{ once: true }}
           >
-            <p className="text-gray-400">© 2024 Flutter Developer Portfolio. Made with ❤️ and lots of animations.</p>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-500 text-sm">
+                © 2024 Mohammed Asif. All rights reserved.
+              </p>
+              <p className="text-gray-400 text-sm flex items-center gap-1">
+                Made with <span className="text-red-500">❤️</span> and lots of animations
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -374,50 +414,59 @@ const App = () => {
   );
 };
 
-// iPhone Mockup Component (minimal, static)
+// iPhone 15 Image Component
 const IPhoneMockup = () => {
+  const socialIcons = [
+    { icon: Github, color: "#333", url: "https://github.com/Asif-Faizal" },
+    { icon: Linkedin, color: "#0077B5", url: "https://www.linkedin.com/in/moh--asif" },
+    { icon: Instagram, color: "#E4405F", url: "https://www.instagram.com/asif_faizal" },
+    { icon: Mail, color: "#EA4335", url: "mailto:moh.asif@protonmail.ch" }
+  ];
+
   return (
-    <div className="relative w-80 h-[600px] bg-black rounded-[50px] p-2 shadow-2xl flex flex-col items-center justify-start border-4 border-gray-800">
-      {/* Notch */}
-      <div className="phone-notch z-10 mt-2"></div>
-      {/* Status bar */}
-      <div className="flex justify-between items-center px-6 pt-8 pb-4 text-white text-sm font-medium w-full">
-        <span>09:41</span>
-        <div className="flex items-center gap-1">
-          <div className="w-4 h-2 border border-white/50 rounded-sm flex items-center">
-            <div className="w-3 h-1 bg-green-500 rounded-sm m-0.5" />
-          </div>
+    <motion.div 
+      className="relative cursor-pointer"
+      whileHover={{ 
+        scale: 1.05,
+        transition: { type: "spring", stiffness: 300, damping: 20 }
+      }}
+      whileTap={{ scale: 0.9999 }}
+    >
+      <img 
+        src={iphone15Image} 
+        alt="iPhone 15" 
+        className="w-96 h-auto object-contain"
+        style={{
+          filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4)) drop-shadow(0 10px 20px rgba(0, 0, 0, 0.25))'
+        }}
+      />
+      
+      {/* Social Media Icons Overlay */}
+      <div className="absolute top-16 left-8">
+        <div className="grid grid-cols-4 gap-3 p-6">
+          {socialIcons.map((social, index) => (
+            <motion.a
+              key={index}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 rounded-xl flex items-center justify-center backdrop-blur-sm bg-white/10 border border-black/30"
+              style={{ backgroundColor: `${social.color}15` }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1 + 0.5, type: "spring", stiffness: 200 }}
+              whileHover={{ 
+                scale: 1.1,
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <social.icon className="w-8 h-8" style={{ color: social.color }} />
+            </motion.a>
+          ))}
         </div>
       </div>
-      {/* App icons grid */}
-      <div className="relative z-10 px-6 pt-8 w-full">
-        <div className="grid grid-cols-4 gap-4">
-          <div className="app-icon" style={{ backgroundColor: '#f3f4f6' }}>
-            <Mail className="w-6 h-6 text-gray-700" />
-          </div>
-          <div className="app-icon" style={{ backgroundColor: '#e5e7eb' }}>
-            <Smartphone className="w-6 h-6 text-gray-700" />
-          </div>
-          <div className="app-icon" style={{ backgroundColor: '#d1d5db' }}>
-            <ExternalLink className="w-6 h-6 text-gray-700" />
-          </div>
-          <div className="app-icon" style={{ backgroundColor: '#9ca3af' }}>
-            <Zap className="w-6 h-6 text-gray-700" />
-          </div>
-        </div>
-      </div>
-      {/* Dock */}
-      <div className="absolute bottom-8 left-6 right-6">
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 flex justify-center gap-4">
-          <div className="app-icon" style={{ backgroundColor: '#f3f4f6' }}>
-            <Smartphone className="w-6 h-6 text-gray-700" />
-          </div>
-          <div className="app-icon" style={{ backgroundColor: '#e5e7eb' }}>
-            <Mail className="w-6 h-6 text-gray-700" />
-          </div>
-        </div>
-      </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -440,7 +489,6 @@ const InteractiveDemo = () => {
             className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200/50 rounded-2xl cursor-pointer"
             whileHover={{
               scale: 1.1,
-              y: -10,
               backgroundColor: "rgba(0, 0, 0, 0.05)",
             }}
             whileTap={{ scale: 0.9 }}
@@ -459,184 +507,106 @@ const InteractiveDemo = () => {
   );
 };
 
-// Enhanced Skill Card Component
+// Simple Skill Card Component
 const SkillCard = ({ skill, index }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
-    }
-  }, [isInView, controls]);
-
   return (
     <motion.div
-      ref={ref}
-      className="p-6 bg-white rounded-2xl hover-lift group cursor-pointer relative overflow-hidden border border-gray-100"
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0 }
+      className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      whileHover={{ 
+        scale: 1.05,
+        boxShadow: "0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        transition: { type: "spring", stiffness: 800, damping: 15 }
       }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ scale: 1.02, y: -5 }}
     >
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-gray-50/5 to-gray-100/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      />
-      
-      <div className="flex items-center gap-4 mb-4 relative z-10">
-        <motion.div 
-          className="p-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl"
-          whileHover={{ rotate: 360, scale: 1.1 }}
-          transition={{ duration: 0.5 }}
-        >
+      <div className="flex items-center gap-4 mb-4">
+        <div className="p-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl">
           <skill.icon className="w-8 h-8 text-gray-800" />
-        </motion.div>
-        <motion.h3 
-          className="text-xl font-bold"
-          whileHover={{ x: 5 }}
-        >
-          {skill.name}
-        </motion.h3>
+        </div>
+        <h3 className="text-xl font-bold">{skill.name}</h3>
       </div>
       
-      <motion.p 
-        className="text-gray-500 mb-4 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: (index * 0.1) + 0.3 }}
-      >
+      <p className="text-gray-500 mb-4">
         {skill.description}
-      </motion.p>
+      </p>
       
-      <div className="space-y-2 relative z-10">
-        {skill.technologies.map((tech, techIndex) => (
-          <motion.div
-            key={tech}
-            className="flex items-center gap-2 group/tech"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: (index * 0.1) + (techIndex * 0.05) + 0.5 }}
-            whileHover={{ x: 5 }}
-          >
-            <motion.div
-              whileHover={{ rotate: 180, scale: 1.2 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Star className="w-4 h-4 text-gray-400" />
-            </motion.div>
-            <span className="text-sm group-hover/tech:text-gray-800 transition-colors duration-200">{tech}</span>
-          </motion.div>
+      <div className="space-y-2">
+        {skill.technologies.map((tech) => (
+          <div key={tech} className="flex items-center gap-2">
+            <Star className="w-4 h-4 text-gray-400" />
+            <span className="text-sm">{tech}</span>
+          </div>
         ))}
       </div>
     </motion.div>
   );
 };
 
-// Enhanced Project Card Component
+// Simple Project Card Component
 const ProjectCard = ({ project, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const liveDemoIconControls = useAnimation();
-  const sourceIconControls = useAnimation();
-
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-2xl bg-white hover-lift cursor-pointer border border-gray-100"
-      initial={{ opacity: 0, y: 50 }}
+      className="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100"
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.2 }}
+      transition={{ duration: 0.2, delay: index * 0.1 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.02, y: -5 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: "0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+        transition: { type: "spring", stiffness: 800, damping: 15 }
+      }}
+      whileTap={{ scale: 0.98 }}
     >
       <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
         <img src={project.imageUrl} alt={project.title} className="absolute inset-0 w-full h-full object-cover" />
         <h3 className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white text-xs font-bold py-1 px-3 rounded-full">{project.title}</h3>
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        />
       </div>
       
-      <div className="p-6 relative">
-        <motion.p 
-          className="text-gray-800 mb-4 text-lg font-bold"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+      <div className="p-6">
+        <p className="text-gray-800 mb-4 text-lg font-bold">
           {project.name}
-        </motion.p>
-        <motion.p 
-          className="text-gray-500 mb-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+        </p>
+        <p className="text-gray-500 mb-4">
           {project.description}
-        </motion.p>
+        </p>
         
-        <motion.div 
-          className="flex flex-wrap gap-2 mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          viewport={{ once: true }}
-        >
-          {project.technologies.map((tech, techIndex) => (
-            <motion.span
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.technologies.map((tech) => (
+            <span
               key={tech}
               className="text-xs font-semibold bg-gray-100 text-gray-700 px-2 py-1 rounded-full"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: (index * 0.2) + (techIndex * 0.1) + 0.4 }}
-              viewport={{ once: true }}
             >
               {tech}
-            </motion.span>
+            </span>
           ))}
-        </motion.div>
+        </div>
         
         <div className="flex gap-4 mt-auto">
           {project.liveDemoUrl && (
-            <motion.a
+            <a
               href={project.liveDemoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-full border border-black/20 px-4 py-2 text-sm font-semibold text-gray-800 transition-colors hover:bg-black/5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onHoverStart={() => liveDemoIconControls.start({ rotate: 45 })}
-              onHoverEnd={() => liveDemoIconControls.start({ rotate: 0 })}
             >
               <span>Live Demo</span>
-              <motion.div animate={liveDemoIconControls} transition={{ duration: 0.3 }}>
-                <ExternalLink className="h-4 w-4" />
-              </motion.div>
-            </motion.a>
+              <ExternalLink className="h-4 w-4" />
+            </a>
           )}
           {project.sourceUrl && (
-            <motion.a
+            <a
               href={project.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-full border border-black/20 px-4 py-2 text-sm font-semibold text-gray-800 transition-colors hover:bg-black/5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onHoverStart={() => sourceIconControls.start({ rotate: 45 })}
-              onHoverEnd={() => sourceIconControls.start({ rotate: 0 })}
             >
               <span>Source</span>
-              <motion.div animate={sourceIconControls} transition={{ duration: 0.3 }}>
-                <Code className="h-4 w-4" />
-              </motion.div>
-            </motion.a>
+              <Code className="h-4 w-4" />
+            </a>
           )}
         </div>
       </div>
@@ -684,11 +654,19 @@ const projects = [
   },
   {
     name: "Social Circle",
-    title: "Chat App",
-    description: "A real-time chat application with features like private messaging, group chats, and read receipts.",
-    technologies: ["Flutter", "Firebase", "WebSocket"],
+    title: "Messaging App",
+    description: "Real-time chat application powered by gRPC, Node.js, and MongoDB on the backend, with a Flutter. It features user authentication, real-time messaging and chat history retrieval using Protocol Buffers.",
+    technologies: ["Flutter", "Node.js", "gRPC", "MongoDB"],
     imageUrl: socialCircleImage,
     sourceUrl: "https://github.com/Asif-Faizal/Social-Circle"
+  },
+  {
+    name: "Informed",
+    title: "News App",
+    description: "Informed is a News app built with Flutter's Test-Driven Development (TDD) and Clean Architecture with 49 tests. It focuses on modularity, testability, scalability and maintainability.",
+    technologies: ["Flutter", "TDD", "Clean Architecture"],
+    imageUrl: informedImage,
+    sourceUrl: "https://github.com/Asif-Faizal/Informed"
   },
 ];
 
@@ -697,6 +675,43 @@ const socialLinks = [
   { name: "LinkedIn", icon: Linkedin, url: "#" },
   { name: "Email", icon: Mail, url: "#" }
 ];
+
+const WhatsAppForm = () => {
+  const [message, setMessage] = useState('');
+  const phoneNumber = '+917559913631'; // Replace with your WhatsApp number
+
+  const handleSend = () => {
+    if (message.trim() !== '') {
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+  };
+
+  return (
+    <motion.div
+      className="max-w-xl mx-auto mb-16 relative"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      viewport={{ once: true }}
+    >
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Type your message here..."
+        className="w-full h-24 p-4 pr-20 bg-white rounded-2xl border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none resize-none transition-shadow duration-300 shadow-sm hover:shadow-md"
+      />
+      <motion.button
+        onClick={handleSend}
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg"
+        whileHover={{ scale: 1.1, backgroundColor: '#000' }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Send className="w-6 h-6" />
+      </motion.button>
+    </motion.div>
+  );
+}
 
 export default App;
 
