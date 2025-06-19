@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView, useAnimation } from 'framer-motion';
 import { ChevronDown, Code, Smartphone, Zap, Star, Github, Linkedin, Mail, ExternalLink, ArrowRight, Play, Pause, Volume2, Globe, Library } from 'lucide-react';
 import './App.css';
+import versaceImage from './assets/versace.png';
+import socialCircleImage from './assets/social-circle.png';
 import {
   SiFlutter,
   SiAndroid,
@@ -676,7 +678,7 @@ const projects = [
     title: "Full Stack E-Commerce App",
     description: "Full fledged Ecommerce Application with product and order managment with payment integration. The backend is built with Golang and handles microservices like payment, order, product, user, etc.",
     technologies: ["Flutter", "Push Notifications", "Go", "MySQL"],
-    imageUrl: "src/assets/versace.png",
+    imageUrl: versaceImage,
     liveDemoUrl: "https://example.com/ecommerce-demo",
     sourceUrl: "https://github.com/Asif-Faizal/Versace"
   },
@@ -685,7 +687,7 @@ const projects = [
     title: "Chat App",
     description: "A real-time chat application with features like private messaging, group chats, and read receipts.",
     technologies: ["Flutter", "Firebase", "WebSocket"],
-    imageUrl: "src/assets/social-circle.png",
+    imageUrl: socialCircleImage,
     sourceUrl: "https://github.com/Asif-Faizal/Social-Circle"
   },
 ];
