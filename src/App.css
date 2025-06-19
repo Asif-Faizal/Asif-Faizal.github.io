@@ -126,16 +126,13 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #232323 0%, #6b7280 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--foreground);
 }
 
 .glass-effect {
-  background: rgba(35, 35, 35, 0.05);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(35, 35, 35, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .hover-lift {
