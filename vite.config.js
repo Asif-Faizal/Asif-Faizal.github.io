@@ -8,7 +8,7 @@ import path from 'path'
  * Use relative paths for local file opening
  */
 export default defineConfig({
-  base: '/',
+  base: '/flutter-portfolio/',
   plugins: [react(),tailwindcss()],
   resolve: {
     alias: {
