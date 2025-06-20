@@ -7,6 +7,7 @@ import socialCircleImage from './assets/social-circle.png';
 import informedImage from './assets/informed.png';
 import iphone15Image from './assets/iphone15.png';
 import profileImage from './assets/profile.png';
+import contactXImage from './assets/contactx.png';
 import {
   SiFlutter,
   SiAndroid,
@@ -667,6 +668,15 @@ const projects = [
     technologies: ["Flutter", "TDD", "Clean Architecture"],
     imageUrl: informedImage,
     sourceUrl: "https://github.com/Asif-Faizal/Informed"
+  },
+  {
+    name: "ContactX",
+    title: "Flutter Plugin",
+    description: "ContactX is the fastest ever Flutter plugin designed to fetch contacts directly from the device. (Tested with 8000+ contacts with ~300ms Estimated Time Ranges)",
+    technologies: ["Flutter", "Plugin", "Android", "iOS","Integration Tests"],
+    imageUrl: contactXImage,
+    liveDemoUrl: "https://pub.dev/packages/contactx",
+    sourceUrl: "https://github.com/Asif-Faizal/ContactX"
   },
 ];
 
