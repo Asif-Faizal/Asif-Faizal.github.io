@@ -617,8 +617,8 @@ const ProjectCard = ({ project, index }) => {
 
 // Data
 const stats = [
-  { value: "10+", label: "Projects" },
-  { value: "1+", label: "Years Exp" },
+  { value: "5+", label: "Projects" },
+  { value: "Up to 2", label: "Years Exp" },
   { value: "100%", label: "Satisfaction" }
 ];
 
@@ -650,7 +650,6 @@ const projects = [
     description: "Full fledged Ecommerce Application with product and order managment with payment integration. The backend is built with Golang and handles microservices like payment, order, product, user, etc.",
     technologies: ["Flutter", "Push Notifications", "Go", "MySQL"],
     imageUrl: versaceImage,
-    liveDemoUrl: "https://example.com/ecommerce-demo",
     sourceUrl: "https://github.com/Asif-Faizal/Versace"
   },
   {
@@ -667,6 +666,7 @@ const projects = [
     description: "Informed is a News app built with Flutter's Test-Driven Development (TDD) and Clean Architecture with 49 tests. It focuses on modularity, testability, scalability and maintainability.",
     technologies: ["Flutter", "TDD", "Clean Architecture"],
     imageUrl: informedImage,
+    liveDemoUrl: "https://github.com/Asif-Faizal/Informed/tree/main/release",
     sourceUrl: "https://github.com/Asif-Faizal/Informed"
   },
   {
